@@ -5,6 +5,7 @@ const searchOptions = document.getElementById("search-options");
 const searchToggle = document.getElementById("search-toggle");
 const toggleIcon = document.getElementById("toggle-icon");
 
+
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
   console.log(searchMenu);
@@ -41,6 +42,7 @@ document.addEventListener("click", function (event) {
     }
   }
 });
+
 
 // section1
 async function initializeSwiper() {
@@ -92,4 +94,62 @@ async function initializeSwiper() {
 }
 window.onload = initializeSwiper;
 
+//section2
+async function loadSection2() {
+  const newBooks = await loadBookList("ItemNewAll", 5, 1);
+  const bookList = document.querySelector(".bookList");
+  const bookListHtml = newBooks.item
+    .map((book) => {
+      return `
+    <div id="book">
+      <img class="bookImg"  src="${book.cover || "../img/exbook.png"}" alt="${
+        book.title
+      }" />
+      <p>${book.title}</p>
+      <p>${book.author}</p>
+  </div>`;
+    })
+    .join("");
+  bookList.innerHTML = bookListHtml;
+}
+document.addEventListener("DOMContentLoaded", loadSection2);
 
+//section3
+async function loadSection3() {
+  const newBooks = await loadBookList("ItemNewSpecial", 4, 1);
+  const bookList = document.querySelector(".right-box");
+  const bookListHtml = newBooks.item
+    .map((book) => {
+      return `
+    <div id="book">
+      <img class="sec3Img"  src="${book.cover || "../img/exbook.png"}" alt="${
+        book.title
+      }" />
+      <p>${book.title}</p>
+      <p>${book.author}</p>
+  </div>`;
+    })
+    .join("");
+  bookList.innerHTML = bookListHtml;
+}
+document.addEventListener("DOMContentLoaded", loadSection3);
+
+//section4
+async function loadSection4() {
+  const newBooks = await loadBookList("BlogBest", 5, 1);
+  const bookList = document.getElementById("blogBookList");
+  const bookListHtml = newBooks.item
+    .map((book) => {
+      return `
+    <div id="book">
+      <img class="bookImg"  src="${book.cover || "../img/exbook.png"}" alt="${
+        book.title
+      }" />
+      <p>${book.title}</p>
+      <p>${book.author}</p>
+  </div>`;
+    })
+    .join("");
+  bookList.innerHTML = bookListHtml;
+}
+document.addEventListener("DOMContentLoaded", loadSection4);
