@@ -1,10 +1,12 @@
 import { loadBookList } from "./api/load";
+import { searchBook, searchAuthor } from "./api/search";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
 const searchToggle = document.getElementById("search-toggle");
 const toggleIcon = document.getElementById("toggle-icon");
-
+const textInput = document.querySelector(".searchInput");
+const searchIcon = document.querySelector(".icon-box");
 
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
@@ -43,6 +45,29 @@ document.addEventListener("click", function (event) {
   }
 });
 
+// 검색 기능
+async function searchFn(query, queryType) {
+  if (queryType === "도서명으로 검색") {
+    const searchBookByTitle = await searchBook(query, "Title", 10, 1);
+    return searchBookByTitle;
+  } else {
+    const searchBookByAuthor = await searchAuthor(query, "Author", 10, 1);
+    return searchBookByAuthor;
+  }
+}
+function performSearch() {
+  const query = textInput.value.trim();
+  const queryType = searchToggle.textContent;
+  if (query) {
+    searchFn(query, queryType);
+  }
+}
+textInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") performSearch();
+});
+searchIcon.addEventListener("click", function () {
+  performSearch();
+});
 
 // section1
 async function initializeSwiper() {
