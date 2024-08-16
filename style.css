@@ -1,0 +1,302 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+  height: 200vh;
+  width: 100%;
+}
+.wrapper {
+  width: 100%;
+  margin: 5rem auto;
+  max-width: 87.5rem;
+}
+.logo {
+  width: 13.75rem;
+  height: 2.25rem;
+}
+.header-box {
+  margin: 0 auto;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background-color: white;
+}
+header {
+  display: flex;
+  width: 87.5rem;
+  align-items: center;
+  gap: 2rem;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+.header-box::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #ccc; /* 선 색상 설정 */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+header > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search-container {
+  width: 50rem;
+  border: 1px solid gray;
+  border-radius: 50px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.search-menu {
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+#search-options {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border-radius: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1000;
+}
+#search-options.show {
+  display: block;
+}
+
+#search-options li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#search-options li:hover {
+  /* line-height: normal; */
+  font-weight: 500;
+}
+.span {
+  /* size: 1px; */
+  font-size: 1rem;
+}
+
+.searchInput {
+  width: 30.5rem;
+  padding: 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+}
+.icon-box {
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  cursor: pointer;
+}
+.like-btn {
+  display: flex;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+#content1 {
+  padding-top: 4.7rem;
+  width: 100%;
+  max-width: 87.5rem;
+  padding-bottom: 5.875rem;
+}
+.slider-box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+h1 {
+  font-size: 1.5625rem;
+  padding-bottom: 2rem;
+}
+#best {
+  width: 15rem;
+  height: 18.75rem;
+}
+#box {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+#desc {
+  /* display: flex; */
+}
+#desc h2 {
+  font-size: 1.5rem;
+  padding-top: 0.5rem;
+}
+#author {
+  font-size: 1.1rem;
+  color: grey;
+  padding-top: 1rem;
+}
+#price {
+  font-size: 1.1rem;
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  color: black;
+}
+#desc span {
+  display: block;
+  font-size: 1.1rem;
+  width: 31rem;
+  /* border: 10px solid; */
+  /* padding-top: 1rem; */
+  color: grey;
+}
+
+.mainSwiper {
+  width: 50rem;
+}
+
+.subSwiper {
+  width: 30rem;
+  padding-bottom: 5.3rem;
+}
+.subSlideWrapper {
+  /* width: 30.6rem; */
+  display: flex;
+}
+#sub {
+  width: 10rem;
+  height: 13rem;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  position: relative;
+  color: black;
+}
+.swiper-button-prev {
+  margin-left: -6.5%;
+}
+.swiper-button-next {
+  margin-right: -6.5%;
+}
+
+#content2 {
+  /* border: 1px solid; */
+  position: relative;
+  padding-top: 4.5rem;
+  padding-bottom: 5.875rem;
+}
+/* section2 */
+#content2::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 100vw;
+  background-color: #ccc;
+  transform: translateX(-50%);
+  /* transform-origin: left; */
+  height: 1px;
+}
+.sec2-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.sec2-head > p {
+  padding-bottom: 1rem;
+}
+.bookImg {
+  width: 15.25rem;
+  height: 21.8rem;
+}
+.bookList {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5개의 동일한 열을 만듭니다 */
+  gap: 2.85rem;
+}
+
+#content3 {
+  /* border: 1px solid; */
+  position: relative;
+  padding-top: 4.5rem;
+  padding-bottom: 5.875rem;
+  background-color: #f3f9f2;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.con3-wrapper {
+  display: flex;
+  /* max-width: 87.5rem; */
+  justify-content: space-between;
+  width: 87.5rem;
+
+}
+.logoWrapper {
+  display: flex;
+}
+.logoWrapper > p {
+  padding-top: 0.8rem;
+  font-weight: 100;
+  color: rgb(59, 57, 57);
+  font-size: 1.4rem;
+  padding-right: 0.5rem;
+}
+.logoWrapper > h2 {
+  font-size: 2.3rem;
+  padding-top: 0.1rem;
+  color: #3a9945;
+}
+.left-box > p {
+  padding-top: 2.4rem;
+  padding-bottom: 1.7rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.left-box > button {
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  background-color: #40a01e;
+  font-weight: 500;
+  border-radius: 15px;
+  border: none;
+  color: white;
+}
+.right-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 5개의 동일한 열을 만듭니다 */
+  gap: 1.5rem;
+}
+.right-box p {
+  width: 11.5rem;
+}
+
+.sec3Img {
+  width: 11.5rem;
+  padding: 0.1rem 0;
+}
+#content4 {
+  /* border: 1px solid; */
+  position: relative;
+  padding-top: 4.5rem;
+  padding-bottom: 5.875rem;
+}
