@@ -60,6 +60,10 @@ function performSearch() {
   const queryType = searchToggle.textContent;
   if (query) {
     searchFn(query, queryType);
+    const url = new URL('search-result.html', window.location.origin);
+    url.searchParams.set('query', query);
+    url.searchParams.set('queryType', queryType);
+    window.location.href = url.toString();
   }
 }
 textInput.addEventListener("keydown", function (event) {
