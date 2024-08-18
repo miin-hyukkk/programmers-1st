@@ -159,7 +159,6 @@ initicialFilter.addEventListener("click", function () {
   currentPage = 1;
   page = 1;
   sort = "Accuracy";
-  console.log("hihihihi");
   sortButtons.forEach((btn) => btn.classList.remove("on"));
   sortButtons[0].classList.add("on");
   renderPage(1, sort);
