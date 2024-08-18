@@ -1,7 +1,7 @@
 // search-result.js
 import { searchBook, searchAuthor } from "./api/search";
-import { generatePaginationHtml } from "./paging/pagination.js";
-import { renderPage as renderPageModule } from "./renderPage.js";
+import { generatePaginationHtml } from "./paging/pagination";
+import { renderPage as renderPageModule } from "./paging/renderPage";
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
