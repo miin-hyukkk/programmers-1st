@@ -1,4 +1,7 @@
+// search-result.js
 import { searchBook, searchAuthor } from "./api/search";
+import { generatePaginationHtml } from "./paging/pagination.js";
+import { renderPage as renderPageModule } from "./renderPage.js";
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
@@ -28,6 +31,7 @@ async function searchFn(query, queryType, max, min, sort) {
     return searchBookByAuthor;
   }
 }
+
 function performSearch() {
   const query = textInput.value.trim();
   const queryType = searchToggle.textContent;
@@ -47,91 +51,45 @@ searchIcon.addEventListener("click", function () {
   performSearch();
 });
 
-// 페이지네이션 기능
+// 페이지네이션 및 페이지 렌더링
 const resultsContainer = document.querySelector(".book-list");
 let page = 1;
 let currentPage = 1;
 let totalResults = 0;
 let groupSize = 5;
 let pageSize = 10;
-let paginationHtml = "";
-async function renderPage(currentPage, sort) {
-  try {
-    const data = await searchFn(query, queryType, 10, currentPage, sort);
-    if (data) {
-      resultsContainer.innerHTML = data.item
-        .map(
-          (item) => `
-                <div id="book">
-                    <img src="${item.cover}" alt="${item.title}" />
-                    <p>${item.title}</p>
-                    <p>${item.author}</p>
-                </div>
-            `
-        )
-        .join("");
-      pagination();
-    } else {
-      resultsContainer.innerHTML =
-        "<p>데이터를 불러오는 중 오류가 발생했습니다.</p>";
-    }
-  } catch (error) {
-    console.error("페이지 렌더링 중 오류 발생:", error);
-  }
+
+async function setPagination() {
+  const paginationHtml = generatePaginationHtml({
+    page,
+    currentPage,
+    groupSize,
+    totalResults,
+    pageSize,
+    onPageChange: "movePage",
+  });
+  document.querySelector(".pgCon").innerHTML = paginationHtml;
 }
 
 window.movePage = (pageNum) => {
   page = pageNum;
   currentPage = pageNum;
   console.log(page, currentPage);
-
-  renderPage(page, sort);
-};
-const pagination = () => {
-  let pageGroup = Math.ceil(page / groupSize);
-  let lastPage = Math.min(
-    Math.ceil(totalResults / pageSize),
-    pageGroup * groupSize
-  );
-  let firstPage = (pageGroup - 1) * groupSize + 1;
-  let totalPage = Math.ceil(totalResults / pageSize);
-
-  paginationHtml = `<button class="next" ${
-    pageGroup === 1 ? "disabled" : ""
-  } onClick='movePage(1)'><i class="fa-solid fa-backward"></i></button>`;
-
-  paginationHtml += `<button class="next" ${
-    pageGroup === 1 ? "disabled" : ""
-  } onClick='movePage(${
-    currentPage - 1
-  })'><i class="fa-solid fa-caret-left"></i></button>`;
-
-  for (let i = firstPage; i <= lastPage; i++) {
-    paginationHtml += `<button class='${
-      i === currentPage ? "on" : ""
-    }' onClick='movePage(${i})'>${i}</button>`;
-  }
-
-  paginationHtml += `<button class="next" ${
-    pageGroup * groupSize >= totalPage ? "disabled" : ""
-  } onClick='movePage(${
-    currentPage + 1
-  })'><i class="fa-solid fa-caret-right"></i></button>`;
-
-  paginationHtml += `<button class="next" ${
-    pageGroup * groupSize >= totalPage ? "disabled" : ""
-  } onClick='movePage(${totalPage})'><i class="fa-solid fa-forward"></i></button>`;
-
-  document.querySelector(".pgCon").innerHTML = paginationHtml;
+  renderPageModule({
+    query,
+    queryType,
+    pageSize,
+    currentPage,
+    sort,
+    searchFn,
+    resultsContainer,
+    pagination: setPagination,
+    setPagination,
+  });
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const query = new URLSearchParams(window.location.search).get("query");
-    const queryType = new URLSearchParams(window.location.search).get(
-      "queryType"
-    );
-
     const data = await searchFn(query, queryType, 10, 1, sort);
     console.log("dddaa", data);
 
@@ -141,21 +99,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     totalResults = data.totalResults || 100;
 
-    renderPage(currentPage, sort);
-    pagination();
+    renderPageModule({
+      query,
+      queryType,
+      pageSize,
+      currentPage,
+      sort,
+      searchFn,
+      resultsContainer,
+      pagination: setPagination,
+      setPagination,
+    });
   } catch (error) {
     console.error("페이지 초기화 중 오류 발생:", error);
   }
 });
 
-//필터링 기능
-
+// 필터링 기능
 sortButtons.forEach((button) => {
   button.addEventListener("click", function () {
     sortButtons.forEach((btn) => btn.classList.remove("on"));
     this.classList.add("on");
     sort = this.getAttribute("data-sort");
-    renderPage(1, sort);
+    renderPageModule({
+      query,
+      queryType,
+      pageSize,
+      currentPage,
+      sort,
+      searchFn,
+      resultsContainer,
+      pagination: setPagination,
+      setPagination,
+    });
     currentPage = 1;
     page = 1;
   });
@@ -167,5 +143,15 @@ initicialFilter.addEventListener("click", function () {
   sort = "Accuracy";
   sortButtons.forEach((btn) => btn.classList.remove("on"));
   sortButtons[0].classList.add("on");
-  renderPage(1, sort);
+  renderPageModule({
+    query,
+    queryType,
+    pageSize,
+    currentPage,
+    sort,
+    searchFn,
+    resultsContainer,
+    pagination: setPagination,
+    setPagination,
+  });
 });
