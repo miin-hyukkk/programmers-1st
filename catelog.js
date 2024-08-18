@@ -1,6 +1,8 @@
 import { loadBookList } from "./api/load";
 import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
+import { attachSearchHandlers } from "./searching/searchHandlers";
+
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -14,6 +16,12 @@ async function loadFn(queryType, max, min) {
   const searchBookByTitle = await loadBookList(queryType, max, min);
   return searchBookByTitle;
 }
+
+// 검색 핸들러 연결
+const textInput = document.querySelector(".searchInput");
+const searchIcon = document.querySelector(".icon-box");
+const searchToggle = document.getElementById("search-toggle");
+attachSearchHandlers(textInput, searchIcon, searchToggle);
 
 // 페이지네이션 및 페이지 렌더링
 const resultsContainer = document.querySelector(".book-list");

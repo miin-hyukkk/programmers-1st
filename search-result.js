@@ -1,7 +1,7 @@
-// search-result.js
-import { searchBook, searchAuthor } from "./api/search";
 import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
+import { searchFn } from "./searching/searchFn";
+import { attachSearchHandlers } from "./searching/searchHandlers";
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
@@ -15,41 +15,8 @@ let sort = "Accuracy"; // 기본 정렬 기준
 const sortButtons = document.querySelectorAll(".sort-btn");
 const initicialFilter = document.querySelector(".tab-header");
 
-// 검색 기능
-async function searchFn(query, queryType, max, min, sort) {
-  if (queryType === "도서명으로 검색") {
-    const searchBookByTitle = await searchBook(query, "Title", max, min, sort);
-    return searchBookByTitle;
-  } else {
-    const searchBookByAuthor = await searchAuthor(
-      query,
-      "Author",
-      max,
-      min,
-      sort
-    );
-    return searchBookByAuthor;
-  }
-}
-
-function performSearch() {
-  const query = textInput.value.trim();
-  const queryType = searchToggle.textContent;
-  if (query) {
-    searchFn(query, queryType);
-    const url = new URL("search-result.html", window.location.origin);
-    url.searchParams.set("query", query);
-    url.searchParams.set("queryType", queryType);
-    window.location.href = url.toString();
-    localStorage.setItem("searchQuery", textInput.value);
-  }
-}
-textInput.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") performSearch();
-});
-searchIcon.addEventListener("click", function () {
-  performSearch();
-});
+// 검색 핸들러 연결
+attachSearchHandlers(textInput, searchIcon, searchToggle);
 
 // 페이지네이션 및 페이지 렌더링
 const resultsContainer = document.querySelector(".book-list");
