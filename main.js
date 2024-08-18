@@ -131,18 +131,7 @@ window.onload = initializeSwiper;
 async function loadSection2() {
   const newBooks = await loadBookList("ItemNewAll", 5, 1);
   const bookList = document.querySelector(".bookList");
-  const bookListHtml = newBooks.item
-    .map((book) => {
-      return `
-    <div id="book">
-      <img class="bookImg"  src="${book.cover || "../img/exbook.png"}" alt="${
-        book.title
-      }" />
-      <p>${book.title}</p>
-      <p>${book.author}</p>
-  </div>`;
-    })
-    .join("");
+  const bookListHtml = newBooks.item.map(generateBookHtml).join("");
   bookList.innerHTML = bookListHtml;
 }
 document.addEventListener("DOMContentLoaded", loadSection2);
@@ -171,20 +160,11 @@ document.addEventListener("DOMContentLoaded", loadSection3);
 async function loadSection4() {
   const newBooks = await loadBookList("BlogBest", 5, 1);
   const bookList = document.getElementById("blogBookList");
-  const bookListHtml = newBooks.item
-    .map((book) => {
-      return `
-    <div id="book">
-      <img class="bookImg"  src="${book.cover || "../img/exbook.png"}" alt="${
-        book.title
-      }" />
-      <p>${book.title}</p>
-      <p>${book.author}</p>
-  </div>`;
-    })
-    .join("");
+  const bookListHtml = newBooks.item.map(generateBookHtml).join("");
   bookList.innerHTML = bookListHtml;
+  addLikeList();
 }
+
 document.addEventListener("DOMContentLoaded", loadSection4);
 
 //더보기 기능 구현
@@ -203,3 +183,55 @@ itemNewSpecialBtn.addEventListener("click", () => {
 blogBestBtn.addEventListener("click", () => {
   moveUrl("BlogBest");
 });
+
+function addLikeList() {
+  document.querySelectorAll("#book .overlay i").forEach((icon) => {
+    icon.addEventListener("click", function () {
+      const bookElement = this.closest("#book");
+      const bookData = {
+        src: bookElement.querySelector(".bookImg").src,
+        title: bookElement.getAttribute("data-title"),
+        author: bookElement.getAttribute("data-author"),
+        price: bookElement.getAttribute("data-price"),
+        sales: bookElement.getAttribute("data-sales"),
+        review: bookElement.getAttribute("data-review"),
+      };
+      let likeList = JSON.parse(localStorage.getItem("likeList")) || [];
+
+      // 중복 체크 및 추가
+      const isBookInList = likeList.some(
+        (item) => item.title === bookData.title
+      );
+      if (!isBookInList) {
+        likeList.push(bookData);
+        localStorage.setItem("likeList", JSON.stringify(likeList));
+        this.classList.remove("fa-regular");
+        this.classList.add("fa-solid");
+      } else {
+        likeList = likeList.filter((item) => item.title !== bookData.title);
+        localStorage.setItem("likeList", JSON.stringify(likeList));
+        this.classList.remove("fa-solid");
+        this.classList.add("fa-regular");
+      }
+    });
+  });
+}
+
+//섹션 2,4에 사용되는 html
+function generateBookHtml(book) {
+  return `
+    <div id="book" data-title="${book.title}" data-author="${
+    book.author
+  }" data-price="${book.priceStandard}" data-sales="${
+    book.salesPoint
+  }" data-review="${book.customerReviewRank}">
+      <img class="bookImg" src="${book.cover || "../img/exbook.png"}" alt="${
+    book.title
+  }" />
+      <p>${book.title}</p>
+      <p>${book.author}</p>
+      <div class="overlay">
+        <i class="fa-regular fa-heart"></i>
+      </div>
+    </div>`;
+}

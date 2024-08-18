@@ -3,7 +3,6 @@ import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
 import { attachSearchHandlers } from "./searching/searchHandlers";
 
-
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 let queryType = params.get("queryType");
