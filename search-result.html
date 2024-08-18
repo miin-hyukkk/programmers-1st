@@ -15,7 +15,6 @@
 
     <link rel="stylesheet" href="myreset.css" />
     <link rel="stylesheet" href="search-result.css" />
-    
   </head>
   <body>
     <script type="module">
@@ -23,7 +22,7 @@
       document.body.insertAdjacentElement("afterbegin", createHeader());
     </script>
     <div class="wrapper">
-      <h1><strong>'API'</strong>에 대한 검색 결과</h1>
+      <h1><strong>'API'</strong>에대한 검색 결과</h1>
       <main>
         <div class="tab-menu">
           <div class="tab-header">
@@ -41,56 +40,18 @@
             <button id="sort-btn">평점순</button>
           </div>
         </div>
-        <div class="book-list">
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
+        <div class="boxWithPg">
+          <div class="book-list">
+            <div id="book">
+              <img src="../img/exbook.png" alt="예시" />
+              <p>제목</p>
+              <p>저자</p>
+            </div>
           </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
-          <div id="book">
-            <img src="../img/exbook.png" alt="예시" />
-            <p>제목</p>
-            <p>저자</p>
-          </div>
+          <div class="pgCon"></div>
         </div>
       </main>
-      <div class="pagination">pagination</div>
     </div>
-    <script type="module" src="./main.js" defer></script>
+    <script type="module" src="./search-result.js" defer></script>
   </body>
 </html>
