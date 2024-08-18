@@ -7,12 +7,18 @@ export async function renderPage({
   currentPage,
   sort,
   searchFn,
+  loadFn,
   resultsContainer,
   pagination,
   setPagination,
 }) {
   try {
-    const data = await searchFn(query, queryType, pageSize, currentPage, sort);
+    let data;
+    if (searchFn) {
+      data = await searchFn(query, queryType, pageSize, currentPage, sort);
+    } else if (loadFn) {
+      data = await loadFn(queryType, pageSize, currentPage);
+    }
     if (data) {
       resultsContainer.innerHTML = data.item
         .map(

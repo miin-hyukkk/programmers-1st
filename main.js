@@ -8,6 +8,9 @@ const toggleIcon = document.getElementById("toggle-icon");
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
 
+const itemNewAllBtn = document.getElementById("more-ItemNewAll-btn");
+const itemNewSpecialBtn = document.getElementById("more-ItemNewSpecial-btn");
+const blogBestBtn = document.getElementById("more-BlogBest-btn");
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
   console.log(searchMenu);
@@ -183,3 +186,20 @@ async function loadSection4() {
   bookList.innerHTML = bookListHtml;
 }
 document.addEventListener("DOMContentLoaded", loadSection4);
+
+//더보기 기능 구현
+function moveUrl(queryType) {
+  const url = new URL("catelog.html", window.location.origin);
+  url.searchParams.set("queryType", queryType);
+  window.location.href = url.toString();
+  localStorage.removeItem("searchQuery");
+}
+itemNewAllBtn.addEventListener("click", () => {
+  moveUrl("ItemNewAll");
+});
+itemNewSpecialBtn.addEventListener("click", () => {
+  moveUrl("ItemNewSpecial");
+});
+blogBestBtn.addEventListener("click", () => {
+  moveUrl("BlogBest");
+});

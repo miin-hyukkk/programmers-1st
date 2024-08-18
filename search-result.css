@@ -119,3 +119,7 @@ img {
   text-decoration: underline;
   border: 0.5px solid;
 }
+
+#queryType{
+  padding-right: 1rem;
+}

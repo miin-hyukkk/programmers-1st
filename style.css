@@ -103,13 +103,14 @@ h1 {
   /* transform-origin: left; */
   height: 1px;
 }
-.sec2-head {
+.sec-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
-.sec2-head > p {
+.sec-head > p {
   padding-bottom: 1rem;
+  cursor: pointer;
 }
 .bookImg {
   width: 15.25rem;
@@ -188,4 +189,11 @@ h1 {
   position: relative;
   padding-top: 4.5rem;
   padding-bottom: 5.875rem;
+}
+.sec4-head {
+  display: flex;
+  justify-content: space-between;
+}
+#more-ItemNewSpecial-btn {
+  cursor: pointer;
 }
