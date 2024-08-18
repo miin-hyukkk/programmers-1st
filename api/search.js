@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function searchBook(query, queryType, maxResults = 10, start = 1) {
+export async function searchBook(query, queryType, maxResults, start, sort) {
   try {
     const response = await axios.get("http://localhost:3000/api/search", {
       params: {
@@ -8,6 +8,7 @@ export async function searchBook(query, queryType, maxResults = 10, start = 1) {
         queryType,
         maxResults,
         start,
+        sort,
       },
     });
 
@@ -17,12 +18,7 @@ export async function searchBook(query, queryType, maxResults = 10, start = 1) {
     throw new Error("An error occurred while fetching the book list");
   }
 }
-export async function searchAuthor(
-  query,
-  queryType,
-  maxResults = 10,
-  start = 1
-) {
+export async function searchAuthor(query, queryType, maxResults, start, sort) {
   try {
     const response = await axios.get("http://localhost:3000/api/search", {
       params: {
@@ -30,6 +26,7 @@ export async function searchAuthor(
         queryType,
         maxResults,
         start,
+        sort,
       },
     });
 

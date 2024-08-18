@@ -15,36 +15,12 @@
 
     <link rel="stylesheet" href="myreset.css" />
     <link rel="stylesheet" href="style.css" />
-    <script type="module" src="./main.js" defer></script>
   </head>
   <body>
-    <div class="header-box">
-      <header>
-        <img class="logo" src="../img/logo.png" alt="logo" />
-        <div class="search-container">
-          <div class="search-menu">
-            <span id="search-toggle">도서명으로 검색</span>
-            <i class="fa-solid fa-caret-down" id="toggle-icon"></i>
-          </div>
-          <input
-            class="searchInput"
-            type="text"
-            placeholder="검색어를 입력하세요"
-          />
-          <div class="icon-box">
-            <i class="fa-solid fa-magnifying-glass" id="search-icon"></i>
-          </div>
-          <ul id="search-options">
-            <li>도서명으로 검색</li>
-            <li>저자명으로 검색</li>
-          </ul>
-        </div>
-        <div class="like-btn">
-          <i class="fa-regular fa-heart"></i>
-          <p>찜 목록</p>
-        </div>
-      </header>
-    </div>
+    <script type="module">
+      import { createHeader } from "./header.js";
+      document.body.insertAdjacentElement("afterbegin", createHeader());
+    </script>
     <div class="wrapper">
       <main>
         <section id="content1">
@@ -83,13 +59,7 @@
             <h1>이번 달 새로 나온 도서</h1>
             <p>> 더보기</p>
           </div>
-          <div class="bookList">
-            <!-- <div id="book">
-              <img class="bookImg" src="../img/exbook.png" alt="예시" />
-              <p>제목</p>
-              <p>저자</p>
-            </div> -->
-          </div>
+          <div class="bookList"></div>
         </section>
         <section id="content3">
           <div class="con3-wrapper">
@@ -102,28 +72,7 @@
               <p>주목할만한 신간을 추천해드려요!</p>
               <button>더 많은 신간 도서 보러가기</button>
             </div>
-            <div class="right-box">
-              <div id="book">
-                <img class="sec3Img" src="../img/exbook.png" alt="예시" />
-                <p>제목</p>
-                <p>저자</p>
-              </div>
-              <div id="book">
-                <img class="sec3Img" src="../img/exbook.png" alt="예시" />
-                <p>제목</p>
-                <p>저자</p>
-              </div>
-              <div id="book">
-                <img class="sec3Img" src="../img/exbook.png" alt="예시" />
-                <p>제목</p>
-                <p>저자</p>
-              </div>
-              <div id="book">
-                <img class="sec3Img" src="../img/exbook.png" alt="예시" />
-                <p>제목</p>
-                <p>저자</p>
-              </div>
-            </div>
+            <div class="right-box"></div>
           </div>
         </section>
         <section id="content4">
@@ -131,35 +80,10 @@
             <h1>블로거 베스트셀러</h1>
             <p>> 더보기</p>
           </div>
-          <div class="bookList" id="blogBookList">
-            <div id="book">
-              <img class="bookImg" src="../img/exbook.png" alt="예시" />
-              <p>제목</p>
-              <p>저자</p>
-            </div>
-            <div id="book">
-              <img class="bookImg" src="../img/exbook.png" alt="예시" />
-              <p>제목</p>
-              <p>저자</p>
-            </div>
-            <div id="book">
-              <img class="bookImg" src="../img/exbook.png" alt="예시" />
-              <p>제목</p>
-              <p>저자</p>
-            </div>
-            <div id="book">
-              <img class="bookImg" src="../img/exbook.png" alt="예시" />
-              <p>제목</p>
-              <p>저자</p>
-            </div>
-            <div id="book">
-              <img class="bookImg" src="../img/exbook.png" alt="예시" />
-              <p>제목</p>
-              <p>저자</p>
-            </div>
-          </div>
+          <div class="bookList" id="blogBookList"></div>
         </section>
       </main>
     </div>
+    <script type="module" src="./main.js" defer></script>
   </body>
 </html>

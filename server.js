@@ -12,7 +12,7 @@ app.use(cors());
 
 app.get("/api/search", async (req, res) => {
   try {
-    const { query, queryType, maxResults, start } = req.query;
+    const { query, queryType, maxResults, start, sort } = req.query;
     const apiUrl = "https://www.aladin.co.kr/ttb/api/ItemSearch.aspx";
 
     const response = await axios.get(apiUrl, {
@@ -22,6 +22,7 @@ app.get("/api/search", async (req, res) => {
         QueryType: queryType || "Title",
         MaxResults: maxResults || 10,
         start: start || 1,
+        Sort: sort,
         SearchTarget: "Book",
         output: "js",
         Version: "20131101",
@@ -29,6 +30,7 @@ app.get("/api/search", async (req, res) => {
     });
 
     res.json(response.data);
+    console.log("response.data", response.data);
   } catch (error) {
     console.error("Error:", error.message);
     res
