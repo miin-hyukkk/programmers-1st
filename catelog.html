@@ -22,7 +22,7 @@
       document.body.insertAdjacentElement("afterbegin", createHeader());
     </script>
     <div class="wrapper">
-      <h1><strong id="book-title">'API'</strong>에 대한 검색 결과</h1>
+      <h1><strong id="queryType">'API'</strong>0개 도서</h1>
       <main>
         <div class="tab-menu">
           <div class="tab-header">
@@ -33,11 +33,16 @@
             </div>
           </div>
           <div class="sort-menu">
-            <button class="sort-btn on" data-sort="Accuracy">정확도순</button>
-            <button class="sort-btn" data-sort="SalesPoint">판매량순</button>
-            <button class="sort-btn" data-sort="PublishTime">최신순</button>
-            <button class="sort-btn" data-sort="Title">상품명순</button>
-            <button class="sort-btn" data-sort="CustomerRating">평점순</button>
+            <button class="sort-btn on" data-sort="ItemNewAll">
+              신간 전체
+            </button>
+            <button class="sort-btn" data-sort="ItemNewSpecial">
+              주목할 만한 신간
+            </button>
+            <button class="sort-btn" data-sort="Bestseller">베스트셀러</button>
+            <button class="sort-btn" data-sort="BlogBest">
+              블로그 베스트셀러
+            </button>
           </div>
         </div>
         <div class="boxWithPg">
@@ -52,6 +57,6 @@
         </div>
       </main>
     </div>
-    <script type="module" src="./search-result.js" defer></script>
+    <script type="module" src="./catelog.js" defer></script>
   </body>
 </html>

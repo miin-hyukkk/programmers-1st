@@ -1,21 +1,26 @@
+import { loadBookList } from "./api/load";
 import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
-import { searchFn } from "./searching/searchFn";
 import { attachSearchHandlers } from "./searching/searchHandlers";
 
-const textInput = document.querySelector(".searchInput");
-const searchIcon = document.querySelector(".icon-box");
-const searchToggle = document.getElementById("search-toggle");
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
-const query = params.get("query");
-const queryType = params.get("queryType");
-let sort = "Accuracy"; // 기본 정렬 기준
+let queryType = params.get("queryType");
+let queryTypeElement = document.getElementById("queryType");
+
 const sortButtons = document.querySelectorAll(".sort-btn");
 const initicialFilter = document.querySelector(".tab-header");
 
+async function loadFn(queryType, max, min) {
+  const searchBookByTitle = await loadBookList(queryType, max, min);
+  return searchBookByTitle;
+}
+
 // 검색 핸들러 연결
+const textInput = document.querySelector(".searchInput");
+const searchIcon = document.querySelector(".icon-box");
+const searchToggle = document.getElementById("search-toggle");
 attachSearchHandlers(textInput, searchIcon, searchToggle);
 
 // 페이지네이션 및 페이지 렌더링
@@ -25,6 +30,7 @@ let currentPage = 1;
 let totalResults = 0;
 let groupSize = 5;
 let pageSize = 10;
+let queryTypeText;
 
 async function setPagination() {
   const paginationHtml = generatePaginationHtml({
@@ -41,14 +47,11 @@ async function setPagination() {
 window.movePage = (pageNum) => {
   page = pageNum;
   currentPage = pageNum;
-  console.log(page, currentPage);
   renderPageModule({
-    query,
     queryType,
     pageSize,
     currentPage,
-    sort,
-    searchFn,
+    loadFn,
     resultsContainer,
     pagination: setPagination,
     setPagination,
@@ -57,22 +60,25 @@ window.movePage = (pageNum) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const data = await searchFn(query, queryType, 10, 1, sort);
-    console.log("dddaa", data);
-
-    document.getElementById("book-title").textContent = `'${query}'`;
-    const savedQuery = localStorage.getItem("searchQuery");
-    if (savedQuery) textInput.value = query;
+    const data = await loadFn(queryType, 10, 1);
+    sortButtons.forEach((btn) => {
+      const buttonSort = btn.getAttribute("data-sort");
+      if (buttonSort === queryType) {
+        btn.classList.add("on");
+      } else {
+        btn.classList.remove("on");
+      }
+    });
 
     totalResults = data.totalResults || 100;
 
+    changeHead(queryType);
+
     renderPageModule({
-      query,
       queryType,
       pageSize,
       currentPage,
-      sort,
-      searchFn,
+      loadFn,
       resultsContainer,
       pagination: setPagination,
       setPagination,
@@ -87,14 +93,14 @@ sortButtons.forEach((button) => {
   button.addEventListener("click", function () {
     sortButtons.forEach((btn) => btn.classList.remove("on"));
     this.classList.add("on");
-    sort = this.getAttribute("data-sort");
+    queryType = this.getAttribute("data-sort");
+    changeHead(queryType);
+
     renderPageModule({
-      query,
       queryType,
       pageSize,
       currentPage,
-      sort,
-      searchFn,
+      loadFn,
       resultsContainer,
       pagination: setPagination,
       setPagination,
@@ -107,18 +113,29 @@ sortButtons.forEach((button) => {
 initicialFilter.addEventListener("click", function () {
   currentPage = 1;
   page = 1;
-  sort = "Accuracy";
+  queryType = "ItemNewAll";
   sortButtons.forEach((btn) => btn.classList.remove("on"));
   sortButtons[0].classList.add("on");
+  changeHead(queryType);
+
   renderPageModule({
-    query,
     queryType,
     pageSize,
     currentPage,
-    sort,
-    searchFn,
+    loadFn,
     resultsContainer,
     pagination: setPagination,
     setPagination,
   });
 });
+
+function changeHead(queryType) {
+  queryTypeElement = document.getElementById("queryType");
+  if (queryType === "ItemNewAll") queryTypeText = "신간 전체";
+  else if (queryType === "ItemNewSpecial") queryTypeText = "주목할 만한 신간";
+  else if (queryType === "BlogBest") queryTypeText = "블로그 베스트셀러";
+  else queryTypeText = "베스트셀러";
+
+  queryTypeElement.innerHTML = `'${queryTypeText}'`;
+  queryTypeElement.parentElement.innerHTML = `<strong id="queryType">'${queryTypeText}'</strong>${totalResults}개 도서`;
+}
