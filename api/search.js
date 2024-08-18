@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function searchBook(query, queryType, maxResults = 10, start = 1) {
+export async function searchBook(query, queryType, maxResults, start) {
   try {
     const response = await axios.get("http://localhost:3000/api/search", {
       params: {
@@ -20,8 +20,8 @@ export async function searchBook(query, queryType, maxResults = 10, start = 1) {
 export async function searchAuthor(
   query,
   queryType,
-  maxResults = 10,
-  start = 1
+  maxResults,
+  start
 ) {
   try {
     const response = await axios.get("http://localhost:3000/api/search", {
