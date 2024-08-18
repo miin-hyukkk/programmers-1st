@@ -1,4 +1,5 @@
 // header.js
+import './header.css';
 
 export function createHeader() {
   const headerHTML = `
