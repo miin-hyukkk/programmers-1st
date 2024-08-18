@@ -37,6 +37,7 @@ function performSearch() {
     url.searchParams.set("query", query);
     url.searchParams.set("queryType", queryType);
     window.location.href = url.toString();
+    localStorage.setItem("searchQuery", textInput.value);
   }
 }
 textInput.addEventListener("keydown", function (event) {
@@ -133,6 +134,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const data = await searchFn(query, queryType, 10, 1, sort);
     console.log("dddaa", data);
+
+    document.getElementById("book-title").textContent = `'${query}'`;
+    const savedQuery = localStorage.getItem("searchQuery");
+    if (savedQuery) textInput.value = query;
+
     totalResults = data.totalResults || 100;
 
     renderPage(currentPage, sort);
