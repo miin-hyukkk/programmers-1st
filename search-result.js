@@ -37,8 +37,9 @@ searchIcon.addEventListener("click", function () {
   performSearch();
 });
 
-const resultsContainer = document.querySelector(".book-list");
 
+// 페이지네이션 기능
+const resultsContainer = document.querySelector(".book-list");
 let page = 1;
 let currentPage = 1;
 let totalResults = 0;
@@ -48,7 +49,6 @@ let paginationHtml = "";
 async function renderPage(currentPage) {
   try {
     const data = await searchFn(query, queryType, 10, currentPage);
-    // 데이터가 유효한지 확인
     if (data) {
       resultsContainer.innerHTML = data.item
         .map(
@@ -86,16 +86,10 @@ const pagination = () => {
   );
   let firstPage = (pageGroup - 1) * groupSize + 1;
   let totalPage = Math.ceil(totalResults / pageSize);
-  let prevGroup = (pageGroup - 2) * groupSize + 1;
-  let nextGroup = pageGroup * groupSize + 1;
 
   paginationHtml = `<button class="next" ${
     pageGroup === 1 ? "disabled" : ""
   } onClick='movePage(1)'><i class="fa-solid fa-backward"></i></button>`;
-
-  // paginationHtml += `<button class="next" ${
-  //   pageGroup === 1 ? "disabled" : ""
-  // } onClick='movePage(${prevGroup})'>이전페이지그룹</button>`;
 
   paginationHtml += `<button class="next" ${
     pageGroup === 1 ? "disabled" : ""
@@ -115,10 +109,6 @@ const pagination = () => {
     currentPage + 1
   })'><i class="fa-solid fa-caret-right"></i></button>`;
 
-  // paginationHtml += `<button class="next" ${
-  //   pageGroup * groupSize >= totalPage ? "disabled" : ""
-  // } onClick='movePage(${nextGroup})'>다음페이지그룹</button>`;
-
   paginationHtml += `<button class="next" ${
     pageGroup * groupSize >= totalPage ? "disabled" : ""
   } onClick='movePage(${totalPage})'><i class="fa-solid fa-forward"></i></button>`;
@@ -133,7 +123,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       "queryType"
     );
 
-    // Fetch initial data
     const data = await searchFn(query, queryType, 10, 1);
     console.log("dddaa", data);
     totalResults = data.totalResults || 100;
