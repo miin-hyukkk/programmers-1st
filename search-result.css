@@ -41,11 +41,14 @@ main {
   padding: 1rem 0 1rem 0.75rem;
   border-radius: 5px;
   margin-bottom: 0.5rem;
+  color: #636363;
   cursor: pointer;
+  font-size: 0.85rem;
 }
-/* .sort-menu button {
-  border: 1px solid #3A9945;
-} */
+.sort-btn.on {
+  border: 1.5px solid #3a9945;
+  color: black;
+}
 .book-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5개의 동일한 열을 만듭니다 */

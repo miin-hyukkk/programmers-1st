@@ -8,14 +8,23 @@ const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
 const query = params.get("query");
 const queryType = params.get("queryType");
+let sort = "Accuracy"; // 기본 정렬 기준
+const sortButtons = document.querySelectorAll(".sort-btn");
+const initicialFilter = document.querySelector(".tab-header");
 
 // 검색 기능
-async function searchFn(query, queryType, max, min) {
+async function searchFn(query, queryType, max, min, sort) {
   if (queryType === "도서명으로 검색") {
-    const searchBookByTitle = await searchBook(query, "Title", max, min);
+    const searchBookByTitle = await searchBook(query, "Title", max, min, sort);
     return searchBookByTitle;
   } else {
-    const searchBookByAuthor = await searchAuthor(query, "Author", max, min);
+    const searchBookByAuthor = await searchAuthor(
+      query,
+      "Author",
+      max,
+      min,
+      sort
+    );
     return searchBookByAuthor;
   }
 }
@@ -37,7 +46,6 @@ searchIcon.addEventListener("click", function () {
   performSearch();
 });
 
-
 // 페이지네이션 기능
 const resultsContainer = document.querySelector(".book-list");
 let page = 1;
@@ -46,9 +54,9 @@ let totalResults = 0;
 let groupSize = 5;
 let pageSize = 10;
 let paginationHtml = "";
-async function renderPage(currentPage) {
+async function renderPage(currentPage, sort) {
   try {
-    const data = await searchFn(query, queryType, 10, currentPage);
+    const data = await searchFn(query, queryType, 10, currentPage, sort);
     if (data) {
       resultsContainer.innerHTML = data.item
         .map(
@@ -76,7 +84,7 @@ window.movePage = (pageNum) => {
   currentPage = pageNum;
   console.log(page, currentPage);
 
-  renderPage(page);
+  renderPage(page, sort);
 };
 const pagination = () => {
   let pageGroup = Math.ceil(page / groupSize);
@@ -123,13 +131,36 @@ document.addEventListener("DOMContentLoaded", async () => {
       "queryType"
     );
 
-    const data = await searchFn(query, queryType, 10, 1);
+    const data = await searchFn(query, queryType, 10, 1, sort);
     console.log("dddaa", data);
     totalResults = data.totalResults || 100;
 
-    renderPage(currentPage);
+    renderPage(currentPage, sort);
     pagination();
   } catch (error) {
     console.error("페이지 초기화 중 오류 발생:", error);
   }
+});
+
+//필터링 기능
+
+sortButtons.forEach((button) => {
+  button.addEventListener("click", function () {
+    sortButtons.forEach((btn) => btn.classList.remove("on"));
+    this.classList.add("on");
+    sort = this.getAttribute("data-sort");
+    renderPage(1, sort);
+    currentPage = 1;
+    page = 1;
+  });
+});
+
+initicialFilter.addEventListener("click", function () {
+  currentPage = 1;
+  page = 1;
+  sort = "Accuracy";
+  console.log("hihihihi");
+  sortButtons.forEach((btn) => btn.classList.remove("on"));
+  sortButtons[0].classList.add("on");
+  renderPage(1, sort);
 });
