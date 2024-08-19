@@ -1,10 +1,10 @@
-import { loadBookList } from "./api/load";
-import { generatePaginationHtml } from "./paging/pagination";
-import { renderPage as renderPageModule } from "./paging/renderPage";
-import { attachSearchHandlers } from "./searching/searchHandlers";
-import { moveLikePage } from "./like/moveLikePage";
-import { addModalEventListeners } from "./modal/addModalEvent";
-import { addLogoClickListener } from "./navigate";
+import { loadBookList } from "../../api/load.js";
+import { generatePaginationHtml } from "../../modules/paging/pagination.js";
+import { renderPage as renderPageModule } from "../../modules/paging/renderPage.js";
+import { attachSearchHandlers } from "../../../searching/searchHandlers.js";
+import { moveLikePage } from "../../modules/like/moveLikePage.js";
+import { addModalEventListeners } from "../../modules/modal/addModalEvent.js";
+import { addLogoClickListener } from "../../modules/navigate.js";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);

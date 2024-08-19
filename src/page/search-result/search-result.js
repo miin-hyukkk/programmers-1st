@@ -1,22 +1,26 @@
-import { generatePaginationHtml } from "./paging/pagination";
-import { renderPage as renderPageModule } from "./paging/renderPage";
-import { attachSearchHandlers } from "./searching/searchHandlers";
-import { addModalEventListeners } from "./modal/addModalEvent";
-import { addLogoClickListener } from "./navigate";
+import { generatePaginationHtml } from "../../modules/paging/pagination.js";
+import { renderPage as renderPageModule } from "../../modules/paging/renderPage.js";
+import { searchFn } from "../../../searching/searchFn.js";
+import { attachSearchHandlers } from "../../../searching/searchHandlers.js";
+import { moveLikePage } from "../../modules/like/moveLikePage.js";
+import { addModalEventListeners } from "../../modules/modal/addModalEvent.js";
+import { addLogoClickListener } from "../../modules/navigate.js";
+
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
 const searchToggle = document.getElementById("search-toggle");
 
-let likeTitleElement = document.getElementById("like-book");
-
-let likeSort = "default"; // 기본 정렬 기준
+const url = new URL(window.location.href);
+const params = new URLSearchParams(url.search);
+const query = params.get("query");
+const queryType = params.get("queryType");
+let sort = "Accuracy"; // 기본 정렬 기준
 const sortButtons = document.querySelectorAll(".sort-btn");
 const initicialFilter = document.querySelector(".tab-header");
 
-let likeList = JSON.parse(localStorage.getItem("likeList")) || [];
-
-console.log(likeList);
+//좋아요페이지 이동
+document.addEventListener("DOMContentLoaded", moveLikePage);
 
 // 검색 핸들러 연결
 attachSearchHandlers(textInput, searchIcon, searchToggle);
@@ -46,9 +50,12 @@ window.movePage = (pageNum) => {
   currentPage = pageNum;
   console.log(page, currentPage);
   renderPageModule({
+    query,
+    queryType,
     pageSize,
     currentPage,
-    likeSort,
+    sort,
+    searchFn,
     resultsContainer,
     setPagination,
   });
@@ -56,14 +63,22 @@ window.movePage = (pageNum) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const data = likeList;
+    const data = await searchFn(query, queryType, 10, 1, sort);
     console.log("dddaa", data);
-    totalResults = data.length || 0;
-    likeTitleElement.parentElement.innerHTML = `<strong id="like-book">'좋아요'</strong>${totalResults}개 도서`;
+
+    document.getElementById("book-title").textContent = `'${query}'`;
+    const savedQuery = localStorage.getItem("searchQuery");
+    if (savedQuery) textInput.value = query;
+
+    totalResults = data.totalResults || 100;
+
     renderPageModule({
+      query,
+      queryType,
       pageSize,
       currentPage,
-      likeSort,
+      sort,
+      searchFn,
       resultsContainer,
       setPagination,
     });
@@ -77,11 +92,14 @@ sortButtons.forEach((button) => {
   button.addEventListener("click", function () {
     sortButtons.forEach((btn) => btn.classList.remove("on"));
     this.classList.add("on");
-    likeSort = this.getAttribute("data-sort");
+    sort = this.getAttribute("data-sort");
     renderPageModule({
+      query,
+      queryType,
       pageSize,
       currentPage,
-      likeSort,
+      sort,
+      searchFn,
       resultsContainer,
       setPagination,
     });
@@ -93,13 +111,16 @@ sortButtons.forEach((button) => {
 initicialFilter.addEventListener("click", function () {
   currentPage = 1;
   page = 1;
-  likeSort = "default";
+  sort = "Accuracy";
   sortButtons.forEach((btn) => btn.classList.remove("on"));
   sortButtons[0].classList.add("on");
   renderPageModule({
+    query,
+    queryType,
     pageSize,
     currentPage,
-    likeSort,
+    sort,
+    searchFn,
     resultsContainer,
     setPagination,
   });

@@ -1,9 +1,9 @@
-import { loadBookList } from "./api/load";
-import { searchBook, searchAuthor } from "./api/search";
-import { addLikeList } from "./like/addLikeList";
-import { moveLikePage } from "./like/moveLikePage";
-import { addModalEventListeners } from "./modal/addModalEvent";
-import { addLogoClickListener } from "./navigate";
+import { loadBookList } from "./src/api/load";
+import { searchBook, searchAuthor } from "./src/api/search";
+import { addLikeList } from "./src/modules/like/addLikeList";
+import { moveLikePage } from "./src/modules/like/moveLikePage";
+import { addModalEventListeners } from "./src/modules/modal/addModalEvent";
+import { addLogoClickListener } from "./src/modules/navigate.js";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -73,7 +73,7 @@ function performSearch() {
   const queryType = searchToggle.textContent;
   if (query) {
     searchFn(query, queryType);
-    const url = new URL("search-result.html", window.location.origin);
+    const url = new URL("src/page/search-result/search-result.html", window.location.origin);
     url.searchParams.set("query", query);
     url.searchParams.set("queryType", queryType);
     window.location.href = url.toString();
@@ -112,7 +112,7 @@ async function initializeSwiper() {
       .map((book) => {
         return `
         <div class="swiper-slide">
-          <img id="sub" src="${book.cover || "../img/exbook.png"}" alt="${
+          <img id="sub" src="${book.cover || "/img/exbook.png"}" alt="${
           book.title
         }" />
         </div>
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", loadSection4);
 
 //더보기 기능 구현
 function moveUrl(queryType) {
-  const url = new URL("catelog.html", window.location.origin);
+  const url = new URL("src/page/catelog/catelog.html", window.location.origin);
   url.searchParams.set("queryType", queryType);
   window.location.href = url.toString();
   localStorage.removeItem("searchQuery");
@@ -207,7 +207,7 @@ function generateBookHtml(book, isLiked, divId, img) {
   data-link="${book.link}" data-desc="${book.description}" data-publisher="${
     book.publisher
   }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
-      <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
+      <img class=${img} src="${book.cover || "/img/exbook.png"}" alt="${
     book.title
   }" />
       <p>${book.title}</p>
@@ -231,7 +231,7 @@ function generateSection1BookHTML(book, isLiked) {
     book.publisher
   }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
       <img id="best" class="best" src="${
-        book.cover || "../img/exbook.png"
+        book.cover || "/img/exbook.png"
       }" alt="${book.title}" >
         <div class="overlay">
           <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>

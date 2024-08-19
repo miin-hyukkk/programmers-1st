@@ -1,4 +1,4 @@
-import { openModal } from "./modal";
+import { openModal } from "./modal.js";
 
 export function addModalEventListeners() {
   document.body.addEventListener("click", (event) => {

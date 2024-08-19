@@ -1,4 +1,4 @@
-import { addLikeList } from "../like/addLikeList";
+import { addLikeList } from "../like/addLikeList.js";
 
 let likeList = JSON.parse(localStorage.getItem("likeList")) || [];
 
@@ -77,7 +77,7 @@ function generateBookHtml(book, isLiked, divId, img) {
   data-link="${book.link}" data-desc="${book.description}" data-publisher="${
     book.publisher
   }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
-      <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
+      <img class=${img} src="${book.cover || "/img/exbook.png"}" alt="${
     book.title
   }" />
       <p>${book.title}</p>
@@ -98,7 +98,7 @@ function generateLikeBookHtml(book, isLiked, divId, img) {
   data-link="${book.link}" data-desc="${book.description}" data-publisher="${
     book.publisher
   }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
-      <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
+      <img class=${img} src="${book.cover || "/img/exbook.png"}" alt="${
     book.title
   }" />
       <p>${book.title}</p>

@@ -4,7 +4,7 @@ export function generateModalHtml(bookData) {
         <div class="modal-content">
           <div class="info-wrapper">
             <img class="modalBook" src="${
-              bookData.cover || "./img/exbook.png"
+              bookData.cover || "/img/exbook.png"
             }" alt="${bookData.title}" />
             <div class="info">
               <p id="modal-title">[국내도서] ${bookData.title}</p>

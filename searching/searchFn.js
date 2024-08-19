@@ -1,5 +1,5 @@
 // searchFn.js
-import { searchBook, searchAuthor } from "../api/search";
+import { searchBook, searchAuthor } from "../src/api/search";
 
 export async function searchFn(query, queryType, max, min, sort) {
   if (queryType === "도서명으로 검색") {

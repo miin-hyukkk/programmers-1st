@@ -5,7 +5,7 @@ export function createHeader() {
   const headerHTML = `
         <div class="header-box">
             <header>
-                <img class="logo" src="../img/logo.png" alt="logo" />
+                <img class="logo" src="/img/logo.png" alt="logo" />
                 <div class="search-container">
                     <div class="search-menu">
                         <span id="search-toggle">도서명으로 검색</span>
