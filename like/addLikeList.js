@@ -27,6 +27,10 @@ export function addLikeList(tag, book, bookImg) {
         this.classList.remove("fa-solid");
         this.classList.add("fa-regular");
       }
+
+      if (window.location.pathname === "/likelist.html") {
+        location.reload();
+      }
     });
   });
 }
