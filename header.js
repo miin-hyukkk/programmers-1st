@@ -35,7 +35,6 @@ export function createHeader() {
   // Create a container for the header
   const container = document.createElement("div");
   container.innerHTML = headerHTML;
-
   // Return the container element
   return container.firstElementChild;
 }

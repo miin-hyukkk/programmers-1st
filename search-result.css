@@ -150,3 +150,6 @@ img {
 #book:hover .overlay {
   opacity: 1;
 }
+#like-book {
+  padding-right: 0.5rem;
+}

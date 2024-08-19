@@ -52,7 +52,6 @@ window.movePage = (pageNum) => {
     currentPage,
     loadFn,
     resultsContainer,
-    pagination: setPagination,
     setPagination,
   });
 };
@@ -79,7 +78,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentPage,
       loadFn,
       resultsContainer,
-      pagination: setPagination,
       setPagination,
     });
   } catch (error) {
@@ -101,7 +99,6 @@ sortButtons.forEach((button) => {
       currentPage,
       loadFn,
       resultsContainer,
-      pagination: setPagination,
       setPagination,
     });
     currentPage = 1;
@@ -123,7 +120,6 @@ initicialFilter.addEventListener("click", function () {
     currentPage,
     loadFn,
     resultsContainer,
-    pagination: setPagination,
     setPagination,
   });
 });

@@ -15,6 +15,11 @@ const blogBestBtn = document.getElementById("more-BlogBest-btn");
 
 const likeList = JSON.parse(localStorage.getItem("likeList")) || [];
 
+document.querySelector(".like-btn").addEventListener("click", function () {
+  const url = new URL("likelist.html", window.location.origin);
+  window.location.href = url.toString();
+});
+
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
   console.log(searchMenu);
