@@ -23,50 +23,44 @@ export async function renderPage({
     } else if (loadFn) {
       data = await loadFn(queryType, pageSize, currentPage);
     } else {
-      if (likeSort === "review")
-        likeList.sort((a, b) => Number(b.review) - Number(a.review));
-      else if (likeSort === "priceH")
-        likeList.sort((a, b) => Number(b.price) - Number(a.price));
-      else if (likeSort === "priceL")
-        likeList.sort((a, b) => Number(a.price) - Number(b.price));
-      else if (likeSort === "sales")
-        likeList.sort((a, b) => Number(b.sales) - Number(a.sales));
-      else if (likeSort === "title")
-        likeList.sort((a, b) => a.title.localeCompare(b.title));
-      else if (likeSort === "default")
-        likeList = JSON.parse(localStorage.getItem("likeList"));
-
-      likeData = likeList.slice(
-        (currentPage - 1) * pageSize,
-        currentPage * pageSize
-      );
+      if (likeList.length !== 0) {
+        sortLikeData(likeSort);
+        likeData = likeList.slice(
+          (currentPage - 1) * pageSize,
+          currentPage * pageSize
+        );
+      }
     }
     if (data) {
-      resultsContainer.innerHTML = data.item
-        .map((book) => {
-          const isLiked = likeList.some(
-            (likedBook) => likedBook.title === book.title
-          );
-          return generateBookHtml(book, isLiked, "book", "bookImg");
-        })
-        .join("");
-
-      setPagination();
-      addLikeList("#book .overlay i", "#book", ".bookImg");
-    } else if (likeData) {
-      resultsContainer.innerHTML = likeData
-        .map((book) => {
-          const isLiked = likeList.some(
-            (likedBook) => likedBook.title === book.title
-          );
-          return generateLikeBookHtml(book, isLiked, "book", "bookImg");
-        })
-        .join("");
-      setPagination();
-      addLikeList("#book .overlay i", "#book", ".bookImg");
-    } else {
-      resultsContainer.innerHTML =
-        "<p>데이터를 불러오는 중 오류가 발생했습니다.</p>";
+      if (data.item.length !== 0) {
+        resultsContainer.innerHTML = data.item
+          .map((book) => {
+            const isLiked = likeList.some(
+              (likedBook) => likedBook.title === book.title
+            );
+            return generateBookHtml(book, isLiked, "book", "bookImg");
+          })
+          .join("");
+        setPagination();
+        addLikeList("#book .overlay i", "#book", ".bookImg");
+      } else {
+        resultsContainer.innerHTML = `<div id=noSearch>${query}와(과) 일치하는 검색결과가 없습니다.</div>`;
+      }
+    } else if (likeList) {
+      if (likeList.length !== 0) {
+        resultsContainer.innerHTML = likeData
+          .map((book) => {
+            const isLiked = likeList.some(
+              (likedBook) => likedBook.title === book.title
+            );
+            return generateLikeBookHtml(book, isLiked, "book", "bookImg");
+          })
+          .join("");
+        setPagination();
+        addLikeList("#book .overlay i", "#book", ".bookImg");
+      } else {
+        resultsContainer.innerHTML = `<div id=noSearch>아직 좋아요를 누르신 상품이 없어요.😂</div>`;
+      }
     }
   } catch (error) {
     console.error("페이지 렌더링 중 오류 발생:", error);
@@ -107,4 +101,18 @@ function generateLikeBookHtml(book, isLiked, divId, img) {
         <i class="fa-solid fa-circle-info"></i>
       </div>
     </div>`;
+}
+function sortLikeData(likeSort) {
+  if (likeSort === "review")
+    likeList.sort((a, b) => Number(b.review) - Number(a.review));
+  else if (likeSort === "priceH")
+    likeList.sort((a, b) => Number(b.price) - Number(a.price));
+  else if (likeSort === "priceL")
+    likeList.sort((a, b) => Number(a.price) - Number(b.price));
+  else if (likeSort === "sales")
+    likeList.sort((a, b) => Number(b.sales) - Number(a.sales));
+  else if (likeSort === "title")
+    likeList.sort((a, b) => a.title.localeCompare(b.title));
+  else if (likeSort === "default")
+    likeList = JSON.parse(localStorage.getItem("likeList"));
 }

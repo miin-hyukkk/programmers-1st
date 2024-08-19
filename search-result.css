@@ -153,3 +153,12 @@ img {
 #like-book {
   padding-right: 0.5rem;
 }
+
+#noSearch {
+  width: 11.875rem;
+  height: 20.75rem;
+  padding-top: 2.5rem;
+  text-align: end;
+  white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+  font-size: 1.5rem;
+}
