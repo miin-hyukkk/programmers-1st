@@ -31,7 +31,6 @@ h1 {
 }
 #box > img {
   width: 100%;
-  border: 4px solid blue;
 }
 
 #desc {
@@ -242,7 +241,6 @@ h1 {
 
 #box .overlay {
   width: 34%;
-  border: 5px solid;
   height: 18.75rem;
 }
 #book3 .overlay {
