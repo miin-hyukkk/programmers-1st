@@ -120,6 +120,45 @@ img {
   border: 0.5px solid;
 }
 
-#queryType{
+#queryType {
   padding-right: 1rem;
+}
+#book {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+#book .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 16.875rem;
+  background-color: rgba(0, 0, 0, 0.5); /* Black color with 50% opacity */
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#book .overlay i {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+#book:hover .overlay {
+  opacity: 1;
+}
+#like-book {
+  padding-right: 0.5rem;
+}
+
+#noSearch {
+  width: 11.875rem;
+  height: 20.75rem;
+  padding-top: 2.5rem;
+  text-align: end;
+  white-space: nowrap; /* 텍스트를 한 줄로 유지 */
+  font-size: 1.5rem;
 }

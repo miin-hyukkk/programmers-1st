@@ -2,7 +2,7 @@ import { loadBookList } from "./api/load";
 import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
 import { attachSearchHandlers } from "./searching/searchHandlers";
-
+import { moveLikePage } from "./like/moveLikePage";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -16,6 +16,9 @@ async function loadFn(queryType, max, min) {
   const searchBookByTitle = await loadBookList(queryType, max, min);
   return searchBookByTitle;
 }
+
+//좋아요페이지 이동
+document.addEventListener("DOMContentLoaded", () => moveLikePage);
 
 // 검색 핸들러 연결
 const textInput = document.querySelector(".searchInput");
@@ -53,7 +56,6 @@ window.movePage = (pageNum) => {
     currentPage,
     loadFn,
     resultsContainer,
-    pagination: setPagination,
     setPagination,
   });
 };
@@ -80,7 +82,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentPage,
       loadFn,
       resultsContainer,
-      pagination: setPagination,
       setPagination,
     });
   } catch (error) {
@@ -102,7 +103,6 @@ sortButtons.forEach((button) => {
       currentPage,
       loadFn,
       resultsContainer,
-      pagination: setPagination,
       setPagination,
     });
     currentPage = 1;
@@ -124,7 +124,6 @@ initicialFilter.addEventListener("click", function () {
     currentPage,
     loadFn,
     resultsContainer,
-    pagination: setPagination,
     setPagination,
   });
 });

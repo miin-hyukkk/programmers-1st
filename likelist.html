@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EeezoBooks</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <link rel="stylesheet" href="myreset.css" />
+    <link rel="stylesheet" href="search-result.css" />
+  </head>
+  <body>
+    <script type="module">
+      import { createHeader } from "./header.js";
+      document.body.insertAdjacentElement("afterbegin", createHeader());
+    </script>
+    <div class="wrapper">
+      <h1><strong id="like-book">좋아요</strong>0개 도서</h1>
+      <main>
+        <div class="tab-menu">
+          <div class="tab-header">
+            <p>정렬</p>
+            <div class="rotate-btn">
+              <i class="fa-solid fa-rotate"></i>
+              <p>초기화</p>
+            </div>
+          </div>
+          <div class="sort-menu">
+            <button class="sort-btn on" data-sort="default">담은순</button>
+            <button class="sort-btn" data-sort="title">상품명순</button>
+            <button class="sort-btn" data-sort="priceH">가격 높은순</button>
+            <button class="sort-btn" data-sort="priceL">가격 낮은순</button>
+            <button class="sort-btn" data-sort="sales">판매량순</button>
+            <button class="sort-btn" data-sort="review">평점순</button>
+          </div>
+        </div>
+        <div class="boxWithPg">
+          <div class="book-list"></div>
+          <div class="pgCon"></div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="./likelist.js" defer></script>
+  </body>
+</html>

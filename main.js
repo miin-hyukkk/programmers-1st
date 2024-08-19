@@ -1,5 +1,7 @@
 import { loadBookList } from "./api/load";
 import { searchBook, searchAuthor } from "./api/search";
+import { addLikeList } from "./like/addLikeList";
+import { moveLikePage } from "./like/moveLikePage";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -11,6 +13,12 @@ const searchIcon = document.querySelector(".icon-box");
 const itemNewAllBtn = document.getElementById("more-ItemNewAll-btn");
 const itemNewSpecialBtn = document.getElementById("more-ItemNewSpecial-btn");
 const blogBestBtn = document.getElementById("more-BlogBest-btn");
+
+const likeList = JSON.parse(localStorage.getItem("likeList")) || [];
+
+//좋아요페이지 이동
+document.addEventListener("DOMContentLoaded", () => moveLikePage);
+
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
   console.log(searchMenu);
@@ -81,7 +89,6 @@ searchIcon.addEventListener("click", function () {
 async function initializeSwiper() {
   try {
     const bestBooks = await loadBookList("Bestseller", 10, 1);
-
     console.log("Bestseller", bestBooks);
     const mainSwiperWrapper = document.querySelector(
       ".swiper-wrapper.mainSlideWrapper"
@@ -91,19 +98,10 @@ async function initializeSwiper() {
     );
     const mainSlidesHtml = bestBooks.item
       .map((book) => {
-        return `
-        <div class="swiper-slide" id="box">
-          <img id="best" src="${book.cover || "../img/exbook.png"}" alt="${
-          book.title
-        }" />
-          <div id="desc">
-            <h2>${book.title}</h2>
-            <p id="author">${book.author}</p>
-            <p id="price">${book.priceSales}</p>
-            <span>${book.description || "No description available"}</span>
-          </div>
-        </div>
-      `;
+        const isLiked = likeList.some(
+          (likedBook) => likedBook.title === book.title
+        );
+        return generateSection1BookHTML(book, isLiked);
       })
       .join("");
 
@@ -121,6 +119,7 @@ async function initializeSwiper() {
       .join("");
     mainSwiperWrapper.innerHTML = mainSlidesHtml;
     subSwiperWrapper.innerHTML = subSlidesHtml;
+    addLikeList("#box .overlay i", "#box", ".best");
   } catch (error) {
     console.error("Failed to load book list:", error);
   }
@@ -130,20 +129,17 @@ window.onload = initializeSwiper;
 //section2
 async function loadSection2() {
   const newBooks = await loadBookList("ItemNewAll", 5, 1);
-  const bookList = document.querySelector(".bookList");
+  const bookList = document.getElementById("itemNewAllList");
   const bookListHtml = newBooks.item
     .map((book) => {
-      return `
-    <div id="book">
-      <img class="bookImg"  src="${book.cover || "../img/exbook.png"}" alt="${
-        book.title
-      }" />
-      <p>${book.title}</p>
-      <p>${book.author}</p>
-  </div>`;
+      const isLiked = likeList.some(
+        (likedBook) => likedBook.title === book.title
+      );
+      return generateBookHtml(book, isLiked, "book", "bookImg");
     })
     .join("");
   bookList.innerHTML = bookListHtml;
+  addLikeList("#book .overlay i", "#book", ".bookImg");
 }
 document.addEventListener("DOMContentLoaded", loadSection2);
 
@@ -153,17 +149,14 @@ async function loadSection3() {
   const bookList = document.querySelector(".right-box");
   const bookListHtml = newBooks.item
     .map((book) => {
-      return `
-    <div id="book">
-      <img class="sec3Img"  src="${book.cover || "../img/exbook.png"}" alt="${
-        book.title
-      }" />
-      <p>${book.title}</p>
-      <p>${book.author}</p>
-  </div>`;
+      const isLiked = likeList.some(
+        (likedBook) => likedBook.title === book.title
+      );
+      return generateBookHtml(book, isLiked, "book3", "sec3Img");
     })
     .join("");
   bookList.innerHTML = bookListHtml;
+  addLikeList("#book3 .overlay i", "#book3", ".sec3Img");
 }
 document.addEventListener("DOMContentLoaded", loadSection3);
 
@@ -173,18 +166,15 @@ async function loadSection4() {
   const bookList = document.getElementById("blogBookList");
   const bookListHtml = newBooks.item
     .map((book) => {
-      return `
-    <div id="book">
-      <img class="bookImg"  src="${book.cover || "../img/exbook.png"}" alt="${
-        book.title
-      }" />
-      <p>${book.title}</p>
-      <p>${book.author}</p>
-  </div>`;
+      const isLiked = likeList.some(
+        (likedBook) => likedBook.title === book.title
+      );
+      return generateBookHtml(book, isLiked, "book", "bookImg");
     })
     .join("");
   bookList.innerHTML = bookListHtml;
 }
+
 document.addEventListener("DOMContentLoaded", loadSection4);
 
 //더보기 기능 구현
@@ -203,3 +193,47 @@ itemNewSpecialBtn.addEventListener("click", () => {
 blogBestBtn.addEventListener("click", () => {
   moveUrl("BlogBest");
 });
+
+//섹션 2,3,4에 사용되는 html
+function generateBookHtml(book, isLiked, divId, img) {
+  return `
+    <div id=${divId} data-title="${book.title}" data-author="${
+    book.author
+  }" data-price="${book.priceStandard}" data-sales="${
+    book.salesPoint
+  }" data-review="${book.customerReviewRank}">
+      <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
+    book.title
+  }" />
+      <p>${book.title}</p>
+      <p>${book.author}</p>
+      <div class="overlay">
+        <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+    </div>`;
+}
+function generateSection1BookHTML(book, isLiked) {
+  return `
+    <div class="swiper-slide" id="box" data-title="${
+      book.title
+    }" data-author="${book.author}" data-price="${
+    book.priceStandard
+  }" data-sales="${book.salesPoint}" data-review="${book.customerReviewRank}">
+      <img id="best" class="best" src="${
+        book.cover || "../img/exbook.png"
+      }" alt="${book.title}" >
+        <div class="overlay">
+          <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+      </>
+      <div id="desc">
+        <h2>${book.title}</h2>
+        <p id="author">${book.author}</p>
+        <p id="price">${book.priceSales}</p>
+        <span>${book.description || "No description available"}</span>
+      </div>
+    </div>
+  `;
+}

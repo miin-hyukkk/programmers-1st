@@ -13,7 +13,6 @@ export function generatePaginationHtml({
     Math.ceil(totalResults / pageSize),
     pageGroup * groupSize
   );
-  console.log(totalResults, pageSize);
 
   let firstPage = (pageGroup - 1) * groupSize + 1;
   let totalPage = Math.ceil(totalResults / pageSize);
@@ -23,7 +22,7 @@ export function generatePaginationHtml({
   } onClick='${onPageChange}(1)'><i class="fa-solid fa-backward"></i></button>`;
 
   paginationHtml += `<button class="next" ${
-    pageGroup === 1 ? "disabled" : ""
+    page === 1 ? "disabled" : ""
   } onClick='${onPageChange}(${
     currentPage - 1
   })'><i class="fa-solid fa-caret-left"></i></button>`;
@@ -35,7 +34,7 @@ export function generatePaginationHtml({
   }
 
   paginationHtml += `<button class="next" ${
-    pageGroup * groupSize >= totalPage ? "disabled" : ""
+    pageGroup * groupSize >= totalPage && page === lastPage ? "disabled" : ""
   } onClick='${onPageChange}(${
     currentPage + 1
   })'><i class="fa-solid fa-caret-right"></i></button>`;
