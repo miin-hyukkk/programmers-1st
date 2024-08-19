@@ -3,6 +3,7 @@ import { searchBook, searchAuthor } from "./api/search";
 import { addLikeList } from "./like/addLikeList";
 import { moveLikePage } from "./like/moveLikePage";
 import { addModalEventListeners } from "./modal/addModalEvent";
+import { addLogoClickListener } from "./navigate";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -247,8 +248,12 @@ function generateSection1BookHTML(book, isLiked) {
   `;
 }
 
-
 // 모달 기능
 document.addEventListener("DOMContentLoaded", () => {
   addModalEventListeners();
+});
+
+// 홈으로 이동
+document.addEventListener("DOMContentLoaded", () => {
+  addLogoClickListener();
 });

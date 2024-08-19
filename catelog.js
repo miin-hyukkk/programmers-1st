@@ -4,6 +4,7 @@ import { renderPage as renderPageModule } from "./paging/renderPage";
 import { attachSearchHandlers } from "./searching/searchHandlers";
 import { moveLikePage } from "./like/moveLikePage";
 import { addModalEventListeners } from "./modal/addModalEvent";
+import { addLogoClickListener } from "./navigate";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -143,4 +144,9 @@ function changeHead(queryType) {
 // 모달 기능
 document.addEventListener("DOMContentLoaded", () => {
   addModalEventListeners();
+});
+
+// 홈으로 이동
+document.addEventListener("DOMContentLoaded", () => {
+  addLogoClickListener();
 });
