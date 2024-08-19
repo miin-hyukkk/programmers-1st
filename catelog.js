@@ -3,6 +3,7 @@ import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
 import { attachSearchHandlers } from "./searching/searchHandlers";
 import { moveLikePage } from "./like/moveLikePage";
+import { addModalEventListeners } from "./modal/addModalEvent";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -18,7 +19,7 @@ async function loadFn(queryType, max, min) {
 }
 
 //좋아요페이지 이동
-document.addEventListener("DOMContentLoaded", () => moveLikePage);
+document.addEventListener("DOMContentLoaded", moveLikePage);
 
 // 검색 핸들러 연결
 const textInput = document.querySelector(".searchInput");
@@ -138,3 +139,8 @@ function changeHead(queryType) {
   queryTypeElement.innerHTML = `'${queryTypeText}'`;
   queryTypeElement.parentElement.innerHTML = `<strong id="queryType">'${queryTypeText}'</strong>${totalResults}개 도서`;
 }
+
+// 모달 기능
+document.addEventListener("DOMContentLoaded", () => {
+  addModalEventListeners();
+});

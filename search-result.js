@@ -3,6 +3,7 @@ import { renderPage as renderPageModule } from "./paging/renderPage";
 import { searchFn } from "./searching/searchFn";
 import { attachSearchHandlers } from "./searching/searchHandlers";
 import { moveLikePage } from "./like/moveLikePage";
+import { addModalEventListeners } from "./modal/addModalEvent";
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
@@ -17,7 +18,7 @@ const sortButtons = document.querySelectorAll(".sort-btn");
 const initicialFilter = document.querySelector(".tab-header");
 
 //좋아요페이지 이동
-document.addEventListener("DOMContentLoaded", () => moveLikePage);
+document.addEventListener("DOMContentLoaded", moveLikePage);
 
 // 검색 핸들러 연결
 attachSearchHandlers(textInput, searchIcon, searchToggle);
@@ -121,4 +122,9 @@ initicialFilter.addEventListener("click", function () {
     resultsContainer,
     setPagination,
   });
+});
+
+// 모달 기능
+document.addEventListener("DOMContentLoaded", () => {
+  addModalEventListeners();
 });

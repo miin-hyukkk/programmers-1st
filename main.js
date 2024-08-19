@@ -2,6 +2,7 @@ import { loadBookList } from "./api/load";
 import { searchBook, searchAuthor } from "./api/search";
 import { addLikeList } from "./like/addLikeList";
 import { moveLikePage } from "./like/moveLikePage";
+import { addModalEventListeners } from "./modal/addModalEvent";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -17,7 +18,7 @@ const blogBestBtn = document.getElementById("more-BlogBest-btn");
 const likeList = JSON.parse(localStorage.getItem("likeList")) || [];
 
 //좋아요페이지 이동
-document.addEventListener("DOMContentLoaded", () => moveLikePage);
+document.addEventListener("DOMContentLoaded", moveLikePage);
 
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
@@ -197,11 +198,14 @@ blogBestBtn.addEventListener("click", () => {
 //섹션 2,3,4에 사용되는 html
 function generateBookHtml(book, isLiked, divId, img) {
   return `
-    <div id=${divId} data-title="${book.title}" data-author="${
+    <div id=${divId}  data-title="${book.title}" data-author="${
     book.author
-  }" data-price="${book.priceStandard}" data-sales="${
-    book.salesPoint
-  }" data-review="${book.customerReviewRank}">
+  }" data-price="${book.priceStandard}" data-priceSales="${
+    book.priceSales
+  }" data-sales="${book.salesPoint}" data-review="${book.customerReviewRank}"
+  data-link="${book.link}" data-desc="${book.description}" data-publisher="${
+    book.publisher
+  }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
       <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
     book.title
   }" />
@@ -209,7 +213,7 @@ function generateBookHtml(book, isLiked, divId, img) {
       <p>${book.author}</p>
       <div class="overlay">
         <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
-        <i class="fa-solid fa-circle-info"></i>
+        <i class="fa-solid fa-circle-info info-icon"></i>
       </div>
     </div>`;
 }
@@ -219,21 +223,32 @@ function generateSection1BookHTML(book, isLiked) {
       book.title
     }" data-author="${book.author}" data-price="${
     book.priceStandard
-  }" data-sales="${book.salesPoint}" data-review="${book.customerReviewRank}">
+  }" data-priceSales="${book.priceSales}" data-sales="${
+    book.salesPoint
+  }" data-review="${book.customerReviewRank}"
+  data-link="${book.link}" data-desc="${book.description}" data-publisher="${
+    book.publisher
+  }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
       <img id="best" class="best" src="${
         book.cover || "../img/exbook.png"
       }" alt="${book.title}" >
         <div class="overlay">
           <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
-          <i class="fa-solid fa-circle-info"></i>
+          <i class="fa-solid fa-circle-info info-icon"></i>
         </div>
       </>
       <div id="desc">
         <h2>${book.title}</h2>
         <p id="author">${book.author}</p>
-        <p id="price">${book.priceSales}</p>
+        <p id="price">${book.priceSales.toLocaleString()}원</p>
         <span>${book.description || "No description available"}</span>
       </div>
     </div>
   `;
 }
+
+
+// 모달 기능
+document.addEventListener("DOMContentLoaded", () => {
+  addModalEventListeners();
+});
