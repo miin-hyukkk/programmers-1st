@@ -120,6 +120,33 @@ img {
   border: 0.5px solid;
 }
 
-#queryType{
+#queryType {
   padding-right: 1rem;
+}
+#book {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+#book .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 16.875rem;
+  background-color: rgba(0, 0, 0, 0.5); /* Black color with 50% opacity */
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+#book .overlay i {
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+#book:hover .overlay {
+  opacity: 1;
 }

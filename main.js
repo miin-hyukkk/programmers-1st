@@ -1,5 +1,6 @@
 import { loadBookList } from "./api/load";
 import { searchBook, searchAuthor } from "./api/search";
+import { addLikeList } from "./like/addLikeList";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -11,6 +12,9 @@ const searchIcon = document.querySelector(".icon-box");
 const itemNewAllBtn = document.getElementById("more-ItemNewAll-btn");
 const itemNewSpecialBtn = document.getElementById("more-ItemNewSpecial-btn");
 const blogBestBtn = document.getElementById("more-BlogBest-btn");
+
+const likeList = JSON.parse(localStorage.getItem("likeList")) || [];
+
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {
   console.log(searchMenu);
@@ -81,7 +85,6 @@ searchIcon.addEventListener("click", function () {
 async function initializeSwiper() {
   try {
     const bestBooks = await loadBookList("Bestseller", 10, 1);
-
     console.log("Bestseller", bestBooks);
     const mainSwiperWrapper = document.querySelector(
       ".swiper-wrapper.mainSlideWrapper"
@@ -91,19 +94,10 @@ async function initializeSwiper() {
     );
     const mainSlidesHtml = bestBooks.item
       .map((book) => {
-        return `
-        <div class="swiper-slide" id="box">
-          <img id="best" src="${book.cover || "../img/exbook.png"}" alt="${
-          book.title
-        }" />
-          <div id="desc">
-            <h2>${book.title}</h2>
-            <p id="author">${book.author}</p>
-            <p id="price">${book.priceSales}</p>
-            <span>${book.description || "No description available"}</span>
-          </div>
-        </div>
-      `;
+        const isLiked = likeList.some(
+          (likedBook) => likedBook.title === book.title
+        );
+        return generateSection1BookHTML(book, isLiked);
       })
       .join("");
 
@@ -121,6 +115,7 @@ async function initializeSwiper() {
       .join("");
     mainSwiperWrapper.innerHTML = mainSlidesHtml;
     subSwiperWrapper.innerHTML = subSlidesHtml;
+    addLikeList("#box .overlay i", "#box", ".best");
   } catch (error) {
     console.error("Failed to load book list:", error);
   }
@@ -130,9 +125,17 @@ window.onload = initializeSwiper;
 //section2
 async function loadSection2() {
   const newBooks = await loadBookList("ItemNewAll", 5, 1);
-  const bookList = document.querySelector(".bookList");
-  const bookListHtml = newBooks.item.map(generateBookHtml).join("");
+  const bookList = document.getElementById("itemNewAllList");
+  const bookListHtml = newBooks.item
+    .map((book) => {
+      const isLiked = likeList.some(
+        (likedBook) => likedBook.title === book.title
+      );
+      return generateBookHtml(book, isLiked, "book", "bookImg");
+    })
+    .join("");
   bookList.innerHTML = bookListHtml;
+  addLikeList("#book .overlay i", "#book", ".bookImg");
 }
 document.addEventListener("DOMContentLoaded", loadSection2);
 
@@ -142,17 +145,14 @@ async function loadSection3() {
   const bookList = document.querySelector(".right-box");
   const bookListHtml = newBooks.item
     .map((book) => {
-      return `
-    <div id="book">
-      <img class="sec3Img"  src="${book.cover || "../img/exbook.png"}" alt="${
-        book.title
-      }" />
-      <p>${book.title}</p>
-      <p>${book.author}</p>
-  </div>`;
+      const isLiked = likeList.some(
+        (likedBook) => likedBook.title === book.title
+      );
+      return generateBookHtml(book, isLiked, "book3", "sec3Img");
     })
     .join("");
   bookList.innerHTML = bookListHtml;
+  addLikeList("#book3 .overlay i", "#book3", ".sec3Img");
 }
 document.addEventListener("DOMContentLoaded", loadSection3);
 
@@ -160,9 +160,15 @@ document.addEventListener("DOMContentLoaded", loadSection3);
 async function loadSection4() {
   const newBooks = await loadBookList("BlogBest", 5, 1);
   const bookList = document.getElementById("blogBookList");
-  const bookListHtml = newBooks.item.map(generateBookHtml).join("");
+  const bookListHtml = newBooks.item
+    .map((book) => {
+      const isLiked = likeList.some(
+        (likedBook) => likedBook.title === book.title
+      );
+      return generateBookHtml(book, isLiked, "book", "bookImg");
+    })
+    .join("");
   bookList.innerHTML = bookListHtml;
-  addLikeList();
 }
 
 document.addEventListener("DOMContentLoaded", loadSection4);
@@ -184,54 +190,46 @@ blogBestBtn.addEventListener("click", () => {
   moveUrl("BlogBest");
 });
 
-function addLikeList() {
-  document.querySelectorAll("#book .overlay i").forEach((icon) => {
-    icon.addEventListener("click", function () {
-      const bookElement = this.closest("#book");
-      const bookData = {
-        src: bookElement.querySelector(".bookImg").src,
-        title: bookElement.getAttribute("data-title"),
-        author: bookElement.getAttribute("data-author"),
-        price: bookElement.getAttribute("data-price"),
-        sales: bookElement.getAttribute("data-sales"),
-        review: bookElement.getAttribute("data-review"),
-      };
-      let likeList = JSON.parse(localStorage.getItem("likeList")) || [];
-
-      // 중복 체크 및 추가
-      const isBookInList = likeList.some(
-        (item) => item.title === bookData.title
-      );
-      if (!isBookInList) {
-        likeList.push(bookData);
-        localStorage.setItem("likeList", JSON.stringify(likeList));
-        this.classList.remove("fa-regular");
-        this.classList.add("fa-solid");
-      } else {
-        likeList = likeList.filter((item) => item.title !== bookData.title);
-        localStorage.setItem("likeList", JSON.stringify(likeList));
-        this.classList.remove("fa-solid");
-        this.classList.add("fa-regular");
-      }
-    });
-  });
-}
-
-//섹션 2,4에 사용되는 html
-function generateBookHtml(book) {
+//섹션 2,3,4에 사용되는 html
+function generateBookHtml(book, isLiked, divId, img) {
   return `
-    <div id="book" data-title="${book.title}" data-author="${
+    <div id=${divId} data-title="${book.title}" data-author="${
     book.author
   }" data-price="${book.priceStandard}" data-sales="${
     book.salesPoint
   }" data-review="${book.customerReviewRank}">
-      <img class="bookImg" src="${book.cover || "../img/exbook.png"}" alt="${
+      <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
     book.title
   }" />
       <p>${book.title}</p>
       <p>${book.author}</p>
       <div class="overlay">
-        <i class="fa-regular fa-heart"></i>
+        <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
+        <i class="fa-solid fa-circle-info"></i>
       </div>
     </div>`;
+}
+function generateSection1BookHTML(book, isLiked) {
+  return `
+    <div class="swiper-slide" id="box" data-title="${
+      book.title
+    }" data-author="${book.author}" data-price="${
+    book.priceStandard
+  }" data-sales="${book.salesPoint}" data-review="${book.customerReviewRank}">
+      <img id="best" class="best" src="${
+        book.cover || "../img/exbook.png"
+      }" alt="${book.title}" >
+        <div class="overlay">
+          <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+      </>
+      <div id="desc">
+        <h2>${book.title}</h2>
+        <p id="author">${book.author}</p>
+        <p id="price">${book.priceSales}</p>
+        <span>${book.description || "No description available"}</span>
+      </div>
+    </div>
+  `;
 }
