@@ -1,9 +1,9 @@
-import { loadBookList } from "./src/api/load";
-import { searchBook, searchAuthor } from "./src/api/search";
-import { addLikeList } from "./src/modules/like/addLikeList";
-import { moveLikePage } from "./src/modules/like/moveLikePage";
-import { addModalEventListeners } from "./src/modules/modal/addModalEvent";
-import { addLogoClickListener } from "./src/modules/navigate.js";
+import { loadBookList } from "../api/load.js";
+import { searchBook, searchAuthor } from "../api/search.js";
+import { addLikeList } from "../modules/like/addLikeList.js";
+import { moveLikePage } from "../modules/like/moveLikePage.js";
+import { addModalEventListeners } from "../modules/modal/addModalEvent.js";
+import { addLogoClickListener } from "../modules/navigate.js";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -73,7 +73,7 @@ function performSearch() {
   const queryType = searchToggle.textContent;
   if (query) {
     searchFn(query, queryType);
-    const url = new URL("src/page/search-result/search-result.html", window.location.origin);
+    const url = new URL("search-result.html", window.location.origin);
     url.searchParams.set("query", query);
     url.searchParams.set("queryType", queryType);
     window.location.href = url.toString();
@@ -181,7 +181,7 @@ document.addEventListener("DOMContentLoaded", loadSection4);
 
 //더보기 기능 구현
 function moveUrl(queryType) {
-  const url = new URL("src/page/catelog/catelog.html", window.location.origin);
+  const url = new URL("catelog.html", window.location.origin);
   url.searchParams.set("queryType", queryType);
   window.location.href = url.toString();
   localStorage.removeItem("searchQuery");

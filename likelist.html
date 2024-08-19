@@ -13,16 +13,16 @@
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
 
-    <link rel="stylesheet" href="../../../myreset.css" />
-    <link rel="stylesheet" href="../../../sub-style.css" />
+    <link rel="stylesheet" href="src/page/myreset.css" />
+    <link rel="stylesheet" href="src/style/sub-style.css" />
   </head>
   <body>
     <script type="module">
-      import { createHeader } from "../../modules/header/header.js";
+      import { createHeader } from "./src/modules/header/header.js";
       document.body.insertAdjacentElement("afterbegin", createHeader());
     </script>
     <div class="wrapper">
-      <h1><strong id="queryType">'API'</strong>0개 도서</h1>
+      <h1><strong id="like-book">좋아요</strong>0개 도서</h1>
       <main>
         <div class="tab-menu">
           <div class="tab-header">
@@ -33,26 +33,20 @@
             </div>
           </div>
           <div class="sort-menu">
-            <button class="sort-btn on" data-sort="ItemNewAll">
-              신간 전체
-            </button>
-            <button class="sort-btn" data-sort="ItemNewSpecial">
-              주목할 만한 신간
-            </button>
-            <button class="sort-btn" data-sort="Bestseller">베스트셀러</button>
-            <button class="sort-btn" data-sort="BlogBest">
-              블로그 베스트셀러
-            </button>
+            <button class="sort-btn on" data-sort="default">담은순</button>
+            <button class="sort-btn" data-sort="title">상품명순</button>
+            <button class="sort-btn" data-sort="priceH">가격 높은순</button>
+            <button class="sort-btn" data-sort="priceL">가격 낮은순</button>
+            <button class="sort-btn" data-sort="sales">판매량순</button>
+            <button class="sort-btn" data-sort="review">평점순</button>
           </div>
         </div>
         <div class="boxWithPg">
-          <div class="book-list">
-            <div id="book">로딩중...</div>
-          </div>
+          <div class="book-list"></div>
           <div class="pgCon"></div>
         </div>
       </main>
     </div>
-    <script type="module" src="catelog.js" defer></script>
+    <script type="module" src="src/page/like-list/likelist.js" defer></script>
   </body>
 </html>
