@@ -1,4 +1,3 @@
-// renderPage.js
 import { addLikeList } from "../like/addLikeList";
 
 let likeList = JSON.parse(localStorage.getItem("likeList")) || [];
@@ -48,6 +47,8 @@ export async function renderPage({
       }
     } else if (likeList) {
       if (likeList.length !== 0) {
+        console.log("likeData", likeData);
+
         resultsContainer.innerHTML = likeData
           .map((book) => {
             const isLiked = likeList.some(
@@ -68,11 +69,14 @@ export async function renderPage({
 }
 function generateBookHtml(book, isLiked, divId, img) {
   return `
-    <div id=${divId} data-title="${book.title}" data-author="${
+    <div id=${divId}  data-title="${book.title}" data-author="${
     book.author
-  }" data-price="${book.priceStandard}" data-sales="${
-    book.salesPoint
-  }" data-review="${book.customerReviewRank}">
+  }" data-price="${book.priceStandard}" data-priceSales="${
+    book.priceSales
+  }" data-sales="${book.salesPoint}" data-review="${book.customerReviewRank}"
+  data-link="${book.link}" data-desc="${book.description}" data-publisher="${
+    book.publisher
+  }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
       <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
     book.title
   }" />
@@ -80,25 +84,28 @@ function generateBookHtml(book, isLiked, divId, img) {
       <p>${book.author}</p>
       <div class="overlay">
         <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
-        <i class="fa-solid fa-circle-info"></i>
+        <i class="fa-solid fa-circle-info info-icon"></i>
       </div>
     </div>`;
 }
 function generateLikeBookHtml(book, isLiked, divId, img) {
   return `
-    <div id=${divId} data-title="${book.title}" data-author="${
+    <div id=${divId}  data-title="${book.title}" data-author="${
     book.author
-  }" data-price="${book.price}" data-sales="${book.sales}" data-review="${
-    book.review
-  }">
-      <img class=${img} src="${book.src || "../img/exbook.png"}" alt="${
+  }" data-price="${book.price}" data-pricesales="${
+    book.discount
+  }" data-sales="${book.sales}" data-review="${book.review}"
+  data-link="${book.link}" data-desc="${book.description}" data-publisher="${
+    book.publisher
+  }" data-pubdate="${book.pubDate}" data-cover="${book.cover}">
+      <img class=${img} src="${book.cover || "../img/exbook.png"}" alt="${
     book.title
   }" />
       <p>${book.title}</p>
       <p>${book.author}</p>
       <div class="overlay">
         <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>
-        <i class="fa-solid fa-circle-info"></i>
+        <i class="fa-solid fa-circle-info info-icon"></i>
       </div>
     </div>`;
 }

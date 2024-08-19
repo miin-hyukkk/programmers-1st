@@ -1,7 +1,8 @@
 import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
-import { searchFn } from "./searching/searchFn";
 import { attachSearchHandlers } from "./searching/searchHandlers";
+import { addModalEventListeners } from "./modal/addModalEvent";
+import { addLogoClickListener } from "./navigate";
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
@@ -102,4 +103,14 @@ initicialFilter.addEventListener("click", function () {
     resultsContainer,
     setPagination,
   });
+});
+
+// 모달 기능
+document.addEventListener("DOMContentLoaded", () => {
+  addModalEventListeners();
+});
+
+// 홈으로 이동
+document.addEventListener("DOMContentLoaded", () => {
+  addLogoClickListener();
 });

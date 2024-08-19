@@ -6,6 +6,7 @@
 .logo {
   width: 13.75rem;
   height: 2.25rem;
+  cursor: pointer;
 }
 .header-box {
   margin: 0 auto;
