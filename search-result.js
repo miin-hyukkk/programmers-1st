@@ -2,6 +2,7 @@ import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
 import { searchFn } from "./searching/searchFn";
 import { attachSearchHandlers } from "./searching/searchHandlers";
+import { moveLikePage } from "./like/moveLikePage";
 
 const textInput = document.querySelector(".searchInput");
 const searchIcon = document.querySelector(".icon-box");
@@ -14,6 +15,9 @@ const queryType = params.get("queryType");
 let sort = "Accuracy"; // 기본 정렬 기준
 const sortButtons = document.querySelectorAll(".sort-btn");
 const initicialFilter = document.querySelector(".tab-header");
+
+//좋아요페이지 이동
+document.addEventListener("DOMContentLoaded", () => moveLikePage);
 
 // 검색 핸들러 연결
 attachSearchHandlers(textInput, searchIcon, searchToggle);

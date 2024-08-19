@@ -1,6 +1,7 @@
 import { loadBookList } from "./api/load";
 import { searchBook, searchAuthor } from "./api/search";
 import { addLikeList } from "./like/addLikeList";
+import { moveLikePage } from "./like/moveLikePage";
 
 const searchMenu = document.querySelector(".search-menu");
 const searchOptions = document.getElementById("search-options");
@@ -15,10 +16,8 @@ const blogBestBtn = document.getElementById("more-BlogBest-btn");
 
 const likeList = JSON.parse(localStorage.getItem("likeList")) || [];
 
-document.querySelector(".like-btn").addEventListener("click", function () {
-  const url = new URL("likelist.html", window.location.origin);
-  window.location.href = url.toString();
-});
+//좋아요페이지 이동
+document.addEventListener("DOMContentLoaded", () => moveLikePage);
 
 // 검색어 종류 설정
 searchMenu.addEventListener("click", function () {

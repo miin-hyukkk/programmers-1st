@@ -2,6 +2,7 @@ import { loadBookList } from "./api/load";
 import { generatePaginationHtml } from "./paging/pagination";
 import { renderPage as renderPageModule } from "./paging/renderPage";
 import { attachSearchHandlers } from "./searching/searchHandlers";
+import { moveLikePage } from "./like/moveLikePage";
 
 const url = new URL(window.location.href);
 const params = new URLSearchParams(url.search);
@@ -15,6 +16,9 @@ async function loadFn(queryType, max, min) {
   const searchBookByTitle = await loadBookList(queryType, max, min);
   return searchBookByTitle;
 }
+
+//좋아요페이지 이동
+document.addEventListener("DOMContentLoaded", () => moveLikePage);
 
 // 검색 핸들러 연결
 const textInput = document.querySelector(".searchInput");
