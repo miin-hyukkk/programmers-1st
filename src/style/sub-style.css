@@ -65,16 +65,12 @@ img {
   width: 11.875rem;
   height: 16.875rem;
 }
-/* .pagination {
-  border: 4px solid blue;
-} */
 
 .pagination {
   display: flex;
   list-style: none;
   padding: 0;
   margin: 20px 0;
-  border: 1px solid red;
 }
 .pagination li {
   margin: 0 5px;
