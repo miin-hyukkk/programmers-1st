@@ -90,7 +90,7 @@ searchIcon.addEventListener("click", function () {
 // section1
 async function initializeSwiper() {
   try {
-    const bestBooks = await loadBookList("Bestseller", 10, 1);
+    const bestBooks = await loadBookList("Bestseller", 30, 1);
     console.log("Bestseller", bestBooks);
     const mainSwiperWrapper = document.querySelector(
       ".swiper-wrapper.mainSlideWrapper"
