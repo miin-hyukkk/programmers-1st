@@ -210,7 +210,7 @@ function generateBookHtml(book, isLiked, divId, img) {
       <img class=${img} src="${book.cover || "/img/exbook.png"}" alt="${
     book.title
   }" />
-      <p>${book.title}</p>
+      <p id="title">${book.title}</p>
       <p>${book.author}</p>
       <div class="overlay">
         <i class="fa-${isLiked ? "solid" : "regular"} fa-heart"></i>

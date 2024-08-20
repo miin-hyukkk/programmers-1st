@@ -250,6 +250,22 @@ h1 {
   height: 21.8rem;
 }
 
+#book3 > #title,
+#book > #title {
+  font-weight: bold;
+}
+
+
+#book3,
+#book {
+  white-space: nowrap;        /* 텍스트를 한 줄로 표시 */
+  overflow: hidden;           /* 넘치는 텍스트를 숨김 */
+  text-overflow: ellipsis;
+}
+
+
+
+
 /* 모달 */
 .modal {
   position: fixed;
