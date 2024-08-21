@@ -1,5 +1,5 @@
 // searchHandlers.js
-import { searchFn } from './searchFn';
+import { searchFn } from './searchFn.js';
 
 export function performSearch(textInput, searchToggle) {
   const query = textInput.value.trim();

@@ -1,6 +1,6 @@
 import { generatePaginationHtml } from "../../modules/paging/pagination.js";
 import { renderPage as renderPageModule } from "../../modules/paging/renderPage.js";
-import { attachSearchHandlers } from "../../../searching/searchHandlers.js";
+import { attachSearchHandlers } from "../../modules/searching/searchHandlers.js";
 import { addModalEventListeners } from "../../modules/modal/addModalEvent.js";
 import { addLogoClickListener } from "../../modules/navigate.js";
 

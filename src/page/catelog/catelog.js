@@ -1,7 +1,7 @@
 import { loadBookList } from "../../api/load.js";
 import { generatePaginationHtml } from "../../modules/paging/pagination.js";
 import { renderPage as renderPageModule } from "../../modules/paging/renderPage.js";
-import { attachSearchHandlers } from "../../../searching/searchHandlers.js";
+import { attachSearchHandlers } from "../../modules/searching/searchHandlers.js";
 import { moveLikePage } from "../../modules/like/moveLikePage.js";
 import { addModalEventListeners } from "../../modules/modal/addModalEvent.js";
 import { addLogoClickListener } from "../../modules/navigate.js";
